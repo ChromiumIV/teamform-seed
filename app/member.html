@@ -70,13 +70,13 @@
 							<div class="schedule-content">
 
 								<div ng-if="tableInfo.length !== 0" class="col-md-4 col-sm-6" ng-repeat="table in tableInfo | orderBy:sorter:isReversed">
-									<div class="program program-schedule">
+									<div ng-if="!table.confirmed" class="program program-schedule">
 										<h3>{{table.tableName}}
 											<span class="glyphicon glyphicon-lock" aria-hidden="true"
 											      ng-hide="table.password == ''"></span>
 										</h3>
                                         <a href="" data-toggle="modal" data-target="#leaderDescription" ng-click="popUpLeader(table.tid)" style="font-family: LiHei Pro; font-weight: bold; font-size: 16px">About the leader</a>
-										<p ng-bind="table.description" style="font-family: LiHei Pro; margin-top: 2px; padding: 2px ; font-size: 16px ;height: 80px">
+										<p ng-bind="table.description" style="font-family: LiHei Pro; margin-top: 4px; padding: 2px ; font-size: 16px ;height: 80px">
 										</p>
 										<div class="progress">
 											<div class="progress-bar progress-bar-custom" role="progressbar"
@@ -108,7 +108,7 @@
 				</div>
 				<div class="col-sm-4">					
 					<h2 class="text-center">Status</h2>
-						<ul class="list-group">
+						<ul class="list-group information">
 						
 							<li id="no_status" class="list-group-item list-group-item-success hide"><span class="glyphicon glyphicon-info-sign"></span>
 								You do not have any request now.</li>
@@ -122,7 +122,7 @@
 								Your table {{tableName}} has been confirmed by Admin.</li>
 						</ul>
 					<h2 class="text-center">My Account</h2>
-						<ul class="list-group">
+						<ul style="color: #000" class="list-group">
 							<li class="list-group-item"><b>User name: </b><b ng-bind="name"></b></li>
 							<li class="list-group-item"><b>Department: </b><b ng-bind="major"></b></li>
 							<li class="list-group-item"><b>Graduation year: </b><b ng-bind="gradYear"></b></li>
@@ -135,7 +135,6 @@
 				</div>
 		</div>
 	</div>
-
     <div class="modal fade" id="leaderDescription" tabindex="-1" role="dialog"
          aria-labelledby="mapModalLabel">
         <div class="modal-dialog" role="document">
@@ -147,7 +146,8 @@
                 </div>
                 <div class="modal-body" style="font-size: 18px">
 					<table class="table">
-						<br>
+						<div><img style="margin: auto; "src="img/no_profile_img.png" class="img-responsive" alt="Cinque Terre" width="204" height="136"></div>
+
 						<tbody>
 						<tr>
 							<td>Name :</td>

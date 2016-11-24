@@ -52,11 +52,10 @@
 							</table>
 							<div class="text-center">
 								<br>
-								<button type="button" class="btn btn-info">Same Major</button>
-								<button type="button" class="btn btn-info">Same Graduation Year</button>
-								<button type="button" class="btn btn-info">Same Gender</button>
-								<button type="button" class="btn btn-info">Another Gender</button>
-								<button type="button" class="btn btn-info">Random</button>
+								<button type="button" style="margin: 5px;" class="btn btn-info">Same Major</button>
+								<button type="button" style="margin: 5px;" class="btn btn-info">Same Graduation Year</button>
+								<button type="button" style="margin: 5px;" class="btn btn-info">Same Gender</button>
+								<button type="button" style="margin: 5px;" class="btn btn-info">Random</button>
 								<br><br><br><br>
 							</div>
 							<p>Person that having approval:</p>
@@ -101,7 +100,7 @@
 
 						 <br>
 						 <div class="form-group">
-						<button type="submit" class="btn btn-primary" ng-click="changeTable()">Save Changes</button>
+						<button type="submit" class="btn btn-warning" ng-click="changeTable()">Save Changes</button>
 						</div>
 					</form>
 					</div>
@@ -118,7 +117,7 @@
 								<option ng-repeat="member in members">{{member.name}}</option>
 							</select>
 						</div>
-						<button type="submit" class="btn btn-primary" ng-click="changeLeader()">Confirm</button>
+						<button type="submit" class="btn btn-warning" ng-click="changeLeader()">Confirm</button>
 						<p><br>* After the reassignment, you <b style="text-transform: uppercase">will become a member</b> of the table and no administration can be performed anymore.</p>
 					</div>
 

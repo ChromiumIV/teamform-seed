@@ -229,13 +229,16 @@ angular.module('teamform-team-app', ['firebase','ngDragDrop'])
                         updates[tid] = noOfMembers;
                         refTable.set(updates);
 
-                        var refPathTable = "members/" + uid +"/events/"+eid;
-                        console.log(refPathTable);
-                        var refTable = firebase.database().ref(refPathTable);
+                        var refTableDone = firebase.database().ref("tables/" + tid + "/confirmed");
+                        refTableDone.set(true);
+
+                        var refPathTable2 = "members/" + uid +"/events/"+eid;
+                        console.log(refPathTable2);
+                        var refTable2 = firebase.database().ref(refPathTable2);
                         updates= {};
                         updates["status"] = "done";
 
-                        refTable.update(updates, function(){
+                        refTable2.update(updates, function(){
                             // refresh page
                             window.location.href = "leader.html?q=" + eid;
                         });

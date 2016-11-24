@@ -33,6 +33,31 @@ angular.module('teamform-admin-app', ['firebase'])
 
 
 	};
+
+	$scope.showLogButton = function (user) {
+		if (user) {
+			$scope.isLogin = true;
+			$scope.isLogout = false;
+			$scope.username = user.displayName;
+			// update $scope
+		} else {
+			// No user is signed in.
+			$scope.isLogin = false;
+			$scope.isLogout = true;
+			console.log("YEAH - You did not login lol");
+		}
+	};
+
+	firebase.auth().onAuthStateChanged(function(user) {
+		$scope.showLogButton(user);
+		if (user) {
+
+		}else{
+			console.log("YEAH - You did not login lol");
+			sessionStorage.setItem("urlAfterLogin","administrator.html");
+			window.location.href = "signIn.html"; // default redirect page is index
+		}
+	});
 	var refPath, ref, eventName;
 
 	//eventName = getURLParameter("q");

@@ -25,7 +25,55 @@
 
 		<!-- Customized libraries shared by pages -->
 		<script src="js/site.js"></script>
-	</head>
+		<style>
+			#tables {
+				float: left;
+				width: 100%;
+			}
+			#droparea {
+				float: left;
+				width: 100%;
+				margin-top: 200px;
+			}
+
+			#tables div, #droparea div {
+				width: 120px;
+				height: 115px;
+				border: 3px solid #7f7f7f;
+				float: left;
+				margin: 5px;
+				padding: 5px;
+				border-radius: 5px;
+				background: white;
+				text-align: center;
+				cursor: pointer;
+				font-size: 25px;
+			}
+
+			#droparea div {
+				width: 160px;
+				height: 45px;
+				margin: 20px;
+			}
+
+			#tables div img {
+				width: 100px;
+				height: 100px;
+			}
+
+			.uncomfirm_table {
+				font: 20px "LiHei Pro", "微軟正黑體", sans-serif !important;
+				padding: 0;
+			}
+
+			.comfirm_table {
+				font: 16px "LiHei Pro", "微軟正黑體", sans-serif !important;
+				padding-top: 6px;
+				padding-bottom:0px;
+				margin:0;
+			}
+		</style>
+</head>
 	<body ng-controller="AdminDashboardCtrl">
 		<div ng-include="'menu.html'"></div>
 
@@ -42,7 +90,7 @@
 							</div>
 							<br>
 
-							<ul class="list-group">
+							<ul class="list-group information">
 								<li class="list-group-item" ng-repeat="table in tables">
 									Table Name: <span ng-bind="table.name"></span>
 									<div style="float:right;">
@@ -61,26 +109,44 @@
 							</div>
 							<br>
 							<p>Confirmed Table:</p>
-							<table class="table table-bordered">
-								<tr><td data-drop="true" data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=tables])'}"  jqyoui-droppable="{multiple:true}">
-									<div class="btn btn-default btn-draggable" ng-repeat="table in tables" ng-model="tables" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{$index}},animate:true}">
-										Name: <span ng-bind="table.name"></span><br/>
-										Number of Member: <span ng-bind="table.member_confirmed"></span>/<span ng-bind="events.max_member"></span>
-									</div>
-								</td>
-							</tr>
-						</table>
+							<div id="tables"></div>
 
-						<p>Table that waiting to approval:</p>
-						<table class="table table-bordered">
-							<tr><td data-drop="true" data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=requestTable])'}"  jqyoui-droppable="{multiple:true}">
-								<div class="btn btn-primary btn-draggable" ng-repeat="table in requestTable" ng-model="requestTable" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{$index}},animate:true}">
-									Name: <span ng-bind="table.name"></span><br/>
-									Number of Member: <span ng-bind="table.member_confirmed"></span>/<span ng-bind="events.max_member"></span>
-								</div>
-							</td>
-						</tr>
-					</table>
+							<div id="droparea"></div>
+							<!--<table class="table table-bordered">-->
+								<!--<tr>-->
+									<!--<td data-drop="true"-->
+										<!--data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=tables])'}"-->
+										<!--jqyoui-droppable="{multiple:true}">-->
+										<!--<div class="btn btn-default btn-draggable" ng-repeat="table in tables"-->
+											 <!--ng-model="tables" data-drag="true"-->
+											 <!--data-jqyoui-options="{revert: 'invalid'}"-->
+											 <!--jqyoui-draggable="{index: {{$index}},animate:true}">-->
+											<!--Name: <span ng-bind="table.name"></span><br/>-->
+											<!--Number of Member: <span ng-bind="table.member_confirmed"></span>/<span-->
+												<!--ng-bind="events.max_member"></span>-->
+										<!--</div>-->
+									<!--</td>-->
+								<!--</tr>-->
+							<!--</table>-->
+
+							<!--<p>Table that waiting to approval:</p>-->
+							<!--<table class="table table-bordered">-->
+								<!--<tr>-->
+									<!--<td data-drop="true"-->
+										<!--data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=requestTable])'}"-->
+										<!--jqyoui-droppable="{multiple:true}">-->
+										<!--<div class="btn btn-primary btn-draggable" ng-repeat="table in requestTable"-->
+											 <!--ng-model="requestTable" data-drag="true"-->
+											 <!--data-jqyoui-options="{revert: 'invalid'}"-->
+											 <!--jqyoui-draggable="{index: {{$index}},animate:true}">-->
+											<!--Name: <span ng-bind="table.name"></span><br/>-->
+											<!--Number of Member: <span ng-bind="table.member_confirmed"></span>/<span-->
+												<!--ng-bind="events.max_member"></span>-->
+										<!--</div>-->
+									<!--</td>-->
+								<!--</tr>-->
+							<!--</table>-->
+
 					<div class="text-center">
 						<br><br><br><br>
 						<button type="button" class="btn btn-lg btn-warning">Confirm</button>
@@ -88,37 +154,37 @@
 				</div>
 
 
-				<div id="memberAllocation" class="tab-pane fade">
-					<div class="text-center">
-						<h2>Member Allocation</h2>
-					</div>
-					<br>
-					<p>Confirmed Table:</p>
-					<table class="table table-bordered">
-						<tr><td>
-							<button type="button" class="btn btn-default" ng-repeat="table in tables">
-								Name: <span ng-bind="table.name"></span><br/>
-								Number of Member: <span ng-bind="table.member_confirmed"></span>/<span ng-bind="events.max_member"></span>
-							</button>
-						</td>
-					</tr>
-				</table>
+				<!--<div id="memberAllocation" class="tab-pane fade">-->
+					<!--<div class="text-center">-->
+						<!--<h2>Member Allocation</h2>-->
+					<!--</div>-->
+					<!--<br>-->
+					<!--<p>Confirmed Table:</p>-->
+					<!--<table class="table table-bordered">-->
+						<!--<tr><td>-->
+							<!--<button type="button" class="btn btn-default" ng-repeat="table in tables">-->
+								<!--Name: <span ng-bind="table.name"></span><br/>-->
+								<!--Number of Member: <span ng-bind="table.member_confirmed"></span>/<span ng-bind="events.max_member"></span>-->
+							<!--</button>-->
+						<!--</td>-->
+					<!--</tr>-->
+				<!--</table>-->
 
-				<p>Person that waiting to allocation:</p>
-				<table class="table table-bordered">
-					<tr><td>
-						<button type="button" class="btn btn-primary">Name: CHAN Tai Man<br>Grad. Year: 2019<br>Major: COMP</button>
-						<button type="button" class="btn btn-primary">Name: CEUNG Tai Wai<br>Grad. Year: 2019<br>Major: COMP</button>
-						<button type="button" class="btn btn-primary">Name: LEE Shiu Wai<br>Grad. Year: 2019<br>Major: CPENG</button>
-						<button type="button" class="btn btn-primary">Name: WONG Shiu Ming<br>Grad. Year: 2019<br>Major: MATH</button>
-					</td>
-				</tr>
-			</table>
-			<div class="text-center">
-				<br><br><br><br>
-				<button type="button" class="btn btn-lg btn-warning">Confirm</button>
-			</div>
-		</div>
+				<!--<p>Person that waiting to allocation:</p>-->
+				<!--<table class="table table-bordered">-->
+					<!--<tr><td>-->
+						<!--<button type="button" class="btn btn-primary">Name: CHAN Tai Man<br>Grad. Year: 2019<br>Major: COMP</button>-->
+						<!--<button type="button" class="btn btn-primary">Name: CEUNG Tai Wai<br>Grad. Year: 2019<br>Major: COMP</button>-->
+						<!--<button type="button" class="btn btn-primary">Name: LEE Shiu Wai<br>Grad. Year: 2019<br>Major: CPENG</button>-->
+						<!--<button type="button" class="btn btn-primary">Name: WONG Shiu Ming<br>Grad. Year: 2019<br>Major: MATH</button>-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+			<!--<div class="text-center">-->
+				<!--<br><br><br><br>-->
+				<!--<button type="button" class="btn btn-lg btn-warning">Confirm</button>-->
+			<!--</div>-->
+		<!--</div>-->
 
 		<div id="editEvent" class="tab-pane fade">
 			<div class="text-center">
@@ -261,7 +327,7 @@
 				<li class="list-group-item"><b>Organizer: </b><b ng-bind="events.organizer"></b></li>
 			</ul>
 
-			<p>Confirmed Tables: <span ng-bind="events.table_confirmed"></span>/<span ng-bind="events.max_table"></span></p>
+			<p>Confirmed Tables: <span ng-bind="events.table_confirmed"></span></p>
 			<div class="progress">
 				<div id="confirmed_bar" class="progress-bar" role="progressbar" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100">
 				</div>
@@ -274,7 +340,7 @@
 				<ul class="list-group">
 					<li class="list-group-item list-group-item-info active"><a data-toggle="tab" href="#tableRequest">Table Request</a></li>
 					<li class="list-group-item list-group-item-info"><a data-toggle="tab" href="#tableAllocation">Table Allocation</a></li>
-					<li class="list-group-item list-group-item-info"><a data-toggle="tab" href="#memberAllocation">Member Allocation</a></li>
+					<!--<li class="list-group-item list-group-item-info"><a data-toggle="tab" href="#memberAllocation">Member Allocation</a></li>					<!--<li class="list-group-item list-group-item-info"><a data-toggle="tab" href="#memberAllocation">Member Allocation</a></li>-->
 					<li class="list-group-item list-group-item-info"><a data-toggle="tab" href="#editEvent">Edit Event Details</a></li>
 				</ul>
 			</div>

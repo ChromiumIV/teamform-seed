@@ -97,14 +97,20 @@ $(document).ready(function(){
 		
 		$('#deadline').attr('max', maxDate);
 	});
+
+
+
+
+
 	
 });
 
 angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 .controller('AdminDashboardCtrl', ['$scope', '$firebaseObject', '$firebaseArray', '$window', function($scope, $firebaseObject, $firebaseArray, $window) {
-	
+
 	// Call Firebase initialization code defined in site.js
 	initalizeFirebase();
+
 	
 	var eid = getURLParameter("q");
 	var refEventPath = "events/";
@@ -115,8 +121,50 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 	
 	// Link and sync a firebase object
 	//$scope.paramEvent = $firebaseArray(refEvent);
-		
-		
+
+	// drag and drop for table allocation
+
+	retrieveOnceFirebase(firebase, "events/" + eid + "/confirmTables", function(data) {
+		var tablesArr = [
+			"img/dogsTable00.png",
+			"img/dogsTable00.png",
+			"img/dogsTable00.png",
+			"img/dogsTable00.png",
+			"img/dogsTable20.png"];
+		var namesArr = $.map(data.val(), function(value, index) {
+			return [value];
+		});
+
+		$scope.drawTable(tablesArr, namesArr);
+	});
+
+	// declare the function
+	$scope.drawTable = function(tablesArr, namesArr) {
+		$.each(tablesArr, function (index, value) {
+			$("<div><img src=" + value + " /></div>")
+				.appendTo("#tables")
+				.draggable({
+					revert: true, scope: true, drag: function () {
+
+					}
+				});
+		});
+
+		$.each(namesArr, function (index, value) {
+			$("<div class='uncomfirm_table' " + "num=" +value.number + ">" + value.name + "</div>")
+				.appendTo("#droparea")
+				.droppable({
+					scope: true,
+					drop: function (event, ui) {
+						$(ui.draggable).append('<p class="comfirm_table">' + $(this).text() + '</p>');
+						$(this).hide("puff", "fast");
+					}
+				});
+		});
+	};
+	// call the function
+
+
 	$scope.events = {
 		name: '',
 		description: '',
@@ -150,6 +198,33 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 
 
 	};
+
+	$scope.showLogButton = function (user) {
+		if (user) {
+			$scope.isLogin = true;
+			$scope.isLogout = false;
+			$scope.username = user.displayName;
+			// update $scope
+		} else {
+			// No user is signed in.
+			$scope.isLogin = false;
+			$scope.isLogout = true;
+			console.log("YEAH - You did not login lol");
+		}
+	};
+
+
+
+	firebase.auth().onAuthStateChanged(function(user) {
+		$scope.showLogButton(user);
+		if (user) {
+
+		}else{
+			console.log("YEAH - You did not login lol");
+			sessionStorage.setItem("urlAfterLogin","adminDashboard.html?q=" + getURLParameter("q"));
+			window.location.href = "signIn.html"; // default redirect page is index
+		}
+	});
 	
 		
     retrieveOnceFirebase(firebase, refEventPath, function(data) {
@@ -285,7 +360,7 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 			$scope.$apply();
 		});
 		
-	}
+	};
 	
 	
 	$scope.getRequestTable = function(tableID2, eventObj){
@@ -297,10 +372,11 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 			
 			var count_member = 0;
 			var check_full = true;
-			
+
 			for(var j in tableObj.members){
 				count_member++;
-			}
+			};
+
 			
 			if(count_member < eventObj.maxForEachTable){
 				check_full = false;
@@ -335,6 +411,8 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 			
 			$scope.$apply();
 		});
-	}
+	};
+
+
 		
 }]);
