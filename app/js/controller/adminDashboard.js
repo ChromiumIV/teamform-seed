@@ -116,7 +116,7 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 	var refEventPath = "events/";
 	var	refTablePath = "tables/";
 	var ref;
-	
+	var updatesReal = {};
 	//refEvent = firebase.database().ref(refEventPath);
 	
 	// Link and sync a firebase object
@@ -124,42 +124,116 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 
 	// drag and drop for table allocation
 
-	retrieveOnceFirebase(firebase, "events/" + eid + "/confirmTables", function(data) {
-		var tablesArr = [
-			"img/dogsTable00.png",
-			"img/dogsTable00.png",
-			"img/dogsTable00.png",
-			"img/dogsTable00.png",
-			"img/dogsTable20.png"];
-		var namesArr = $.map(data.val(), function(value, index) {
+	retrieveOnceFirebase(firebase, "events/" + eid , function(data) {
+		var tablesArr = $.map(data.child("realTables").val(), function(value, index) {
 			return [value];
 		});
-
-		$scope.drawTable(tablesArr, namesArr);
+		var namesArr = $.map(data.child("confirmTables").val(), function(value, index) {
+			return [value];
+		});
+		var maxMember = data.child("maxForEachTable").val();
+		$scope.drawTable(tablesArr, namesArr, maxMember);
 	});
 
 	// declare the function
-	$scope.drawTable = function(tablesArr, namesArr) {
+    $scope.assignTableNo = 0;
+	$scope.drawTable = function(tablesArr, namesArr, maxMember) {
 		$.each(tablesArr, function (index, value) {
-			$("<div><img src=" + value + " /></div>")
+			var imageShow = "";
+			if (value.numbers == null) {
+
+				imageShow = "img/dogsTable00.png";
+
+			} else {
+
+				if (value.numbers == 0)
+					imageShow = "img/dogsTable00.png";
+				else if (value.numbers == 1)
+					imageShow = "img/dogsTable0.png";
+				else if (value.numbers == 2)
+					imageShow = "img/dogsTable10.png";
+				else if (value.numbers == 3)
+					imageShow = "img/dogsTable20.png";
+				else if (value.numbers == 4)
+					imageShow = "img/dogsTable30.png";
+				else if (value.numbers == 5)
+					imageShow = "img/dogsTable40.png";
+				else if (value.numbers == 6)
+					imageShow = "img/dogsTable50.png";
+
+			}
+
+
+			$("<div><p class='current_num'>0</p><img src=" + imageShow + " /></div>")
 				.appendTo("#tables")
 				.draggable({
 					revert: true, scope: true, drag: function () {
-
+                        $scope.assignTableNo = index + 1;
+                        console.log($scope.assignTableNo);
+						var current = parseInt($(this).find(".current_num").text());
+						// if (current + value.number > maxMember) {
+						// 	alert("Sorry, The table exceeds the max number " + maxMember);
+						// }
 					}
 				});
 		});
 
 		$.each(namesArr, function (index, value) {
-			$("<div class='uncomfirm_table' " + "num=" +value.number + ">" + value.name + "</div>")
-				.appendTo("#droparea")
-				.droppable({
-					scope: true,
-					drop: function (event, ui) {
-						$(ui.draggable).append('<p class="comfirm_table">' + $(this).text() + '</p>');
-						$(this).hide("puff", "fast");
-					}
-				});
+
+			if (!value.isRealTable) {
+				$("<div class='uncomfirm_table' " + "num=" +value.number + ">" + value.name + "</div>")
+					.appendTo("#droparea")
+					.droppable({
+						scope: true,
+						drop: function (event, ui) {
+
+							console.log($(ui.draggable).find(".current_num").text());
+
+							var current = parseInt($(ui.draggable).find(".current_num").text());
+
+							// validiation for exceed max
+							if (current + value.number > maxMember) {
+								alert("Sorry, The table exceeds the max number " + maxMember);
+								return
+							}
+							// assignment
+							$(ui.draggable).append('<p class="comfirm_table">' + $(this).text() + '</p>');
+							$(ui.draggable).find(".current_num").text(current + value.number);
+
+							// change image to show the percentage of the table
+							if (current + value.number > 0)
+								$(ui.draggable).find("img").attr("src" , "img/dogsTable20.png");
+
+							if ((current + value.number) == maxMember)
+								$(ui.draggable).find("img").attr("src" , "img/dogsTable.png");
+
+							// update from confirm to real
+							var refPathRealTable = "events/" + eid + "/realTables/r" + $scope.assignTableNo + "/" + value.tid;
+							console.log(refPathRealTable);
+							var refRealTable = firebase.database().ref(refPathRealTable);
+							refRealTable.set(true);
+
+							var refPathRealTable2 = "events/" + eid + "/realTables/r" + $scope.assignTableNo + "/numbers";
+							console.log(refPathRealTable2);
+							var refRealTable2 = firebase.database().ref(refPathRealTable2);
+							refRealTable2.set(current + value.number);
+
+							var refPathRealTable3 = "events/" + eid + "/confirmTables/" + value.tid + "/isRealTable";
+							console.log(refPathRealTable3);
+							var refRealTable3 = firebase.database().ref(refPathRealTable3);
+							refRealTable3.set(true);
+
+							var refPathRealTable4 = "tables/" + value.tid + "/isRealTable";
+							console.log(refPathRealTable4);
+							var refRealTable4 = firebase.database().ref(refPathRealTable4);
+							refRealTable4.set("Actual Table Number " + $scope.assignTableNo );
+
+							// refTable.set(updates);
+							$(this).hide("puff", "fast");
+						}
+					});
+			}
+
 		});
 	};
 	// call the function
@@ -338,7 +412,7 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 						
 			var count_member = 0;
 			var check_full = true;
-			
+
 			for(var j in tableObj.members){
 				count_member++;
 			}
@@ -348,13 +422,14 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 			}else{
 				check_full = true;
 			}
-			
+			console.log(tableObj.isRealTable)
 			$scope.tables.push({
 				"id": tableID,
 				"name": tableObj.tableName,
 				"member_confirmed": count_member,
 				"number_tags": tableObj.tags,
-				"full": check_full
+				"full": check_full,
+				"isRealTable": tableObj.isRealTable
 			});
 						
 			$scope.$apply();
@@ -413,6 +488,9 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 		});
 	};
 
+	$scope.backToMain = function() {
+		window.location.href= "adminDashboard.html?q=" + eid;
+	}
 
 		
 }]);

@@ -37,9 +37,9 @@
 			}
 
 			#tables div, #droparea div {
-				width: 120px;
-				height: 115px;
-				border: 3px solid #7f7f7f;
+				width: 130px;
+				height: 130px;
+				border: 2px solid #7f7f7f;
 				float: left;
 				margin: 5px;
 				padding: 5px;
@@ -58,20 +58,28 @@
 
 			#tables div img {
 				width: 100px;
-				height: 100px;
+				height: 90px;
 			}
 
 			.uncomfirm_table {
 				font: 20px "LiHei Pro", "微軟正黑體", sans-serif !important;
-				padding: 0;
+				padding-top: 1px;
 			}
 
 			.comfirm_table {
 				font: 16px "LiHei Pro", "微軟正黑體", sans-serif !important;
-				padding-top: 6px;
+				padding-top: 10px;
 				padding-bottom:0px;
 				margin:0;
 			}
+
+            .current_num {
+                font: 12px "LiHei Pro", "微軟正黑體", sans-serif !important;
+            }
+
+            #application {
+                padding: 0 !important;
+            }
 		</style>
 </head>
 	<body ng-controller="AdminDashboardCtrl">
@@ -93,10 +101,13 @@
 							<ul class="list-group information">
 								<li class="list-group-item" ng-repeat="table in tables">
 									Table Name: <span ng-bind="table.name"></span>
+                                    <span style="margin-left: 200px;" ng-bind="table.isRealTable"></span>
 									<div style="float:right;">
+
 										<span ng-bind="table.member_confirmed"></span> <span>/</span> <span ng-bind="events.max_member"></span>
-										<span ng-if="check_full" class="glyphicon glyphicon-ok-sign" style="color:green;"></span>
-										<span ng-if="!check_full" class="glyphicon glyphicon-ok-sign" style="color:red;"></span>
+										<span ng-if="table.isRealTable" class="glyphicon glyphicon-ok-sign" style="color:green;"></span>
+										<span ng-if="!table.isRealTable" class="glyphicon glyphicon-ok-sign" style="color:red;"></span>
+
 									</div>
 								</li>
 							</ul>
@@ -105,10 +116,10 @@
 
 						<div id="tableAllocation" class="tab-pane fade">
 							<div class="text-center">
-								<h2>Table Allocation</h2>
+								<h2>Real Table Allocation</h2>
 							</div>
 							<br>
-							<p>Confirmed Table:</p>
+							<p>Real Table:</p>
 							<div id="tables"></div>
 
 							<div id="droparea"></div>
@@ -149,7 +160,7 @@
 
 					<div class="text-center">
 						<br><br><br><br>
-						<button type="button" class="btn btn-lg btn-warning">Confirm</button>
+						<button ng-click="backToMain()" type="button" class="btn btn-lg btn-warning">Confirm</button>
 					</div>
 				</div>
 

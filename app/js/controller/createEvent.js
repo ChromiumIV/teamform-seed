@@ -197,7 +197,7 @@ angular.module('teamform-createEvent-app', ['firebase'])
 		
 		max = Math.max.apply(null, number);
 		
-		if (isNaN(max)) {
+		if (isNaN(max) || max == null) {
 			max = 0;
 		}
 		max = max + 1;
@@ -239,8 +239,21 @@ angular.module('teamform-createEvent-app', ['firebase'])
 			timeMin = "0" + timeMin;
 		}
 
+		$scope.realTables = {};
+
+		for (i = 1 ; i < $scope.events.table_num+1 ; i++) {
+			$scope.realTables['r'+i] = "";
+			$scope.realTables['r'+i] = {
+				numbers: '0'
+			}
+		}
 
 		var createRef = firebase.database().ref(refEventCreate);
+
+		if (isNaN(max) || max == null) {
+			max = 0;
+		}
+
 		createRef.child("e" + max).set({
 			eventName: $scope.events.event_name,
 			description: $scope.events.description,
@@ -254,7 +267,8 @@ angular.module('teamform-createEvent-app', ['firebase'])
 			deadline: deadlineMonth + "-" + deadlineDate + "-" + deadlineYear,
 			// numberOfCurrentTable: 0,
 			// numberOfCurrentUser: 0,
-			visible: true
+			visible: true,
+			realTables : $scope.realTables
 		});
 		//console.log("success");
 		window.location.href= "index.html";

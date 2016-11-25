@@ -226,7 +226,12 @@ angular.module('teamform-team-app', ['firebase','ngDragDrop'])
                         console.log(refPathTable);
                         var refTable = firebase.database().ref(refPathTable);
                         var updates = {};
-                        updates[tid] = noOfMembers;
+                        updates[tid] = {
+                            name : $scope.tableName,
+                            number : noOfMembers,
+                            tid : tid,
+                            isRealTable : false
+                        };
                         refTable.set(updates);
 
                         var refTableDone = firebase.database().ref("tables/" + tid + "/confirmed");
