@@ -120,7 +120,9 @@ angular.module('teamform-createEvent-app', ['firebase'])
 		people_num: '',
 		organizer: '',
 		deadline: '',
-		gps: '22.336130,114.263942'
+		gps: '22.336130,114.263942',
+		img1 : '',
+		img2 : ''
 	};
 	
 	// Initialize $scope.param as an empty JSON object
@@ -197,7 +199,7 @@ angular.module('teamform-createEvent-app', ['firebase'])
 		
 		max = Math.max.apply(null, number);
 		
-		if (isNaN(max) || max ) {
+		if (isNaN(max)) {
 			max = 0;
 		}
 		max = max + 1;
@@ -268,7 +270,9 @@ angular.module('teamform-createEvent-app', ['firebase'])
 			// numberOfCurrentTable: 0,
 			// numberOfCurrentUser: 0,
 			visible: true,
-			realTables : $scope.realTables
+			realTables : $scope.realTables,
+			img1 : $scope.events.img1,
+			img2 : $scope.events.img2
 		});
 		//console.log("success");
 		window.location.href= "index.html";

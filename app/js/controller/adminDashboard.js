@@ -220,7 +220,7 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 
 
 							if ((current + value.number) == maxMember)
-								$(ui.draggable).find("img").attr("src" , "img/dogsTable.png");
+								$(ui.draggable).find("img").attr("src" , imageShow);
 
 							// update from confirm to real
 							var refPathRealTable = "events/" + eid + "/realTables/r" + $scope.assignTableNo + "/" + value.tid;

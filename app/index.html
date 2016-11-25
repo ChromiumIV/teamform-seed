@@ -320,7 +320,7 @@
 
 				   <article class="event_content roundcard" ng-repeat="(key, value) in events" ng-if="events[key].visible == true">
 					   <a href="event.html?q={{key}}">
-						   <div style="background: url('../img/event-2016-annual-dinner.jpg');
+						   <div style="background: url({{events[key].img1}});
 							width: 250px; 
 							height: 225px; background-repeat: 
 							no-repeat; background-position: center; 

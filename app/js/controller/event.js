@@ -116,6 +116,7 @@ angular.module('teamform-event-app', ['firebase'])
                 $scope.organizer = data.child("organizer").val();
                 $scope.gps = data.child("gps").val();
                 $scope.visible = data.child("visible").val();
+                $scope.img2 = data.child("img2").val();
 
                 if (!$scope.visible){
                     window.location.href = "index.html";	// future: the case user type url directly
