@@ -184,7 +184,7 @@ angular.module('teamform-createEvent-app', ['firebase'])
 	// Link and sync a firebase object
 	$scope.paramEvent = $firebaseArray(refEvent);
 		
-	var number = [];
+	var number = ['0'];
 	var max = 0;
 	
 	$scope.paramEvent.$loaded().then(function() {
@@ -197,7 +197,7 @@ angular.module('teamform-createEvent-app', ['firebase'])
 		
 		max = Math.max.apply(null, number);
 		
-		if (isNaN(max) || max == null) {
+		if (isNaN(max) || max ) {
 			max = 0;
 		}
 		max = max + 1;

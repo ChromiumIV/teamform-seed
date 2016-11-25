@@ -164,7 +164,7 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 			}
 
 
-			$("<div><p class='current_num'>0</p><img src=" + imageShow + " /></div>")
+			$("<div><p class='current_num'>" + value.numbers + "</p><img src=" + imageShow + " /></div>")
 				.appendTo("#tables")
 				.draggable({
 					revert: true, scope: true, drag: function () {
@@ -201,8 +201,23 @@ angular.module('teamform-adminDashboard-app', ['firebase','ngDragDrop'])
 							$(ui.draggable).find(".current_num").text(current + value.number);
 
 							// change image to show the percentage of the table
-							if (current + value.number > 0)
-								$(ui.draggable).find("img").attr("src" , "img/dogsTable20.png");
+
+
+							if ((current + value.number) == 0)
+								imageShow = "img/dogsTable00.png";
+							else if ((current + value.number) == 1)
+								imageShow = "img/dogsTable0.png";
+							else if ((current + value.number) == 2)
+								imageShow = "img/dogsTable10.png";
+							else if ((current + value.number) == 3)
+								imageShow = "img/dogsTable20.png";
+							else if ((current + value.number) == 4)
+								imageShow = "img/dogsTable30.png";
+							else if ((current + value.number) == 5)
+								imageShow = "img/dogsTable40.png";
+							else if ((current + value.number) == 6)
+								imageShow = "img/dogsTable50.png";
+
 
 							if ((current + value.number) == maxMember)
 								$(ui.draggable).find("img").attr("src" , "img/dogsTable.png");

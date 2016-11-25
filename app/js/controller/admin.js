@@ -72,7 +72,7 @@ angular.module('teamform-admin-app', ['firebase'])
 	$scope.paramFeedback = $firebaseArray(refFeedback);
 
 	$scope.goToEvent = function(eID) {
-	  $window.location.href = '../../event.html?q='+ eID;
+	  $window.location.href = 'adminDashboard.html?q='+ eID;
 	};
 	
 	$scope.hideEvent = function(eID) {
