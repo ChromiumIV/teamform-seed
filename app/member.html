@@ -85,8 +85,9 @@
 											</div>
 										</div>
 										<div class="progress-text-style">
-											<span class="glyphicon glyphicon-user " aria-hidden="true"></span> 
-											{{countMembers(table)}}/ {{maxForEachTable}}
+											<span class="glyphicon glyphicon-user" aria-hidden="true" style="color: #33CCFF"></span><span style="color: #33CCFF">{{table.maleMember}}</span>
+<span class="glyphicon glyphicon-user" aria-hidden="true" style="color: #FF6699"></span><span style="color: #FF6699">{{table.femaleMember}}</span>
+											/ {{maxForEachTable}}
 										</div>
 										<div ng-show="table.showPasswordInput">
 											<input class="password-input" type="password" id="{{table.tid}}-password"
