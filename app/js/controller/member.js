@@ -158,23 +158,6 @@ angular.module('teamform-member-app', ['firebase'])
 			$scope.$apply();
 		});	
 		
-		// get table information from database by tid
-		var tableData = {};
-		retrieveOnceFirebase(firebase, "tables", function(data) {
-			data.forEach(function(childData) {
-				if(childData.child("event").val() == eid) {
-					tableData[childData.key] = childData.val();
-					tableData[childData.key].tid = childData.key;
-					tableData[childData.key].showPasswordInput = false;
-					tableData[childData.key].passwordPlaceholder = "Please enter password";
-					tableData[childData.key].hasPassword = false;
-				}
-			});
-			$scope.tableInfo = Object.keys(tableData).map(function(k) {return tableData[k]});
-			$scope.tableInfoTemp = Object.keys(tableData).map(function(k) {return tableData[k]});
-			$scope.$apply();
-		});
-		
 		// get member information for sorting by gender
 		var memberData = {};
 		retrieveOnceFirebase(firebase, "members", function(data) {
@@ -185,6 +168,29 @@ angular.module('teamform-member-app', ['firebase'])
 			$scope.memberInfo = Object.keys(memberData).map(function(k) {return memberData[k]});
 			$scope.$apply();
 		});
+
+		// get table information from database by tid
+		var tableData = {};
+		retrieveOnceFirebase(firebase, "tables", function(data) {
+			data.forEach(function(childData) {
+				if(childData.child("event").val() == eid) {
+					tableData[childData.key] = childData.val();
+					tableData[childData.key].tid = childData.key;
+					tableData[childData.key].showPasswordInput = false;
+					tableData[childData.key].passwordPlaceholder = "Please enter password";
+					tableData[childData.key].hasPassword = false;
+					$scope.sortByGender = "male";
+					tableData[childData.key].maleMember = $scope.orderByGender(tableData[childData.key]);
+					$scope.sortByGender = "female";
+					tableData[childData.key].femaleMember = $scope.orderByGender(tableData[childData.key]);
+				}
+			});
+			$scope.tableInfo = Object.keys(tableData).map(function(k) {return tableData[k]});
+			$scope.tableInfoTemp = Object.keys(tableData).map(function(k) {return tableData[k]});
+			$scope.$apply();
+		});
+		
+		
 
 	  } else {
 		// No user is signed in.
